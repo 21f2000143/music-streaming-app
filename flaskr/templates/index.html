@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BS Music</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="/static/Vue/vue.js"></script>
+  <script src="https://unpkg.com/vue-router@2.8.1/dist/vue-router.js"></script>
+  <script src="https://unpkg.com/vuex@2.0.0"></script>
+</head>
+
+<body>
+
+  <div id="app">
+    <router-view></router-view> 
+  </div>
+
+  <script type="module">
+    //admin imports
+    import AdminLoginView from "../static/admin/admin-login.js";
+    import AlbumIndexView from "../static/admin/album-view.js";
+    import CreatorsIndexView from "../static/admin/creator-view.js";
+    import FlagsIndexView from "../static/admin/flags-view.js";
+    import ReportContentView from "../static/admin/report-content.js";
+    import ReportCreatorView from "../static/admin/report-creator.js";
+    import SongIndexView from "../static/admin/song-view.js";
+    import UserIndexView from "../static/admin/user-view.js";
+
+    //album imports
+    import AllAlbumsView from "../static/album/index-view.js"
+    import NewAlbumForm from "../static/album/create-view.js"
+    import EditAlbumView from "../static/album/update-view.js"
+
+    import RegisterCreatorView from "../static/auth/creator-register.js";
+    import LoginView from "../static/auth/cu-login.js";
+    import RegisterView from "../static/auth/user-register.js";    
+
+    import AllPlaylistsView from "../static/playlist/index-view.js"
+    import NewPlaylistView from "../static/playlist/create-view.js"
+    import EditPlaylistView from "../static/playlist/update-view.js"    
+
+    import SongPlaylistsView from "../static/song/add-to-playlist.js";
+    import AlbumSong from "../static/song/album-song.js";
+    import NewSongForm from "../static/song/create-view.js";
+    import SongDetail from "../static/song/current-song.js";
+    import SongList from "../static/song/index-view.js";
+    import PlaylistSong from "../static/song/playlist-song.js";
+    import EditSongForm from "../static/song/update-view.js";
+
+    import GuestView from "../static/view/home-page.js";
+    import CreatorView from "../static/view/creator-page.js";
+    import OwnerView from "../static/view/owner-page.js";
+    import UserView from "../static/view/user-page.js";
+    
+    const routes = [
+      { path: '/user/dashboard', component: UserView, children:[
+        { path: '', component: SongList }, 
+        { path: '/user/dashboard/playing/song/:id', component: SongDetail },
+        { path: '/user/add/song/playlist/:id', component: SongPlaylistsView },
+        { path: '/user/report/song/:id', component: ReportContentView },
+  
+        { path: '/user/all/albums', component: AllAlbumsView },
+        { path: '/user/album/song/:id', component: AlbumSong },
+  
+        { path: '/user/add/playlist', component: NewPlaylistView },
+        { path: '/user/playlist/song/:id', component: PlaylistSong },
+        { path: '/user/all/playlist', component: AllPlaylistsView },
+        { path: '/user/update/playlist/:id', component: EditPlaylistView }
+  
+      ] },
+
+      { path: '/', component: GuestView, children: [
+        { path: '', component: SongList }, 
+        { path: '/login', component: LoginView },  
+        { path: '/register', component: RegisterView },
+        { path: '/creator', component: RegisterCreatorView },
+        { path: '/playing/song/:id', component: SongDetail },
+        { path: '/admin/login', component: AdminLoginView },
+        { path: '/add/song/playlist/:id', component: LoginView },
+      ]},
+
+      { path: '/creator/dashboard', component: CreatorView, children: [
+        { path: '', component: SongList }, 
+        { path: '/creator/add/song', component: NewSongForm },
+        { path: '/creator/update/song/:id', component: EditSongForm },
+        { path: '/creator/dashboard/playing/song/:id', component: SongDetail },
+        { path: '/creator/add/song/playlist/:id', component: SongPlaylistsView },
+        { path: '/creator/report/song/:id', component: ReportContentView },
+
+        { path: '/creator/add/album', component: NewAlbumForm }, 
+        { path: '/creator/all/albums', component: AllAlbumsView },
+        { path: '/creator/album/song/:id', component: AlbumSong },
+
+        { path: '/creator/add/playlist', component: NewPlaylistView },
+        { path: '/creator/playlist/song/:id', component: PlaylistSong },
+        { path: '/creator/all/playlist', component: AllPlaylistsView },
+        { path: '/creator/update/album/:id', component: EditAlbumView },
+        { path: '/creator/update/playlist/:id', component: EditPlaylistView }
+      ] },
+
+      { path: '/admin/dashboard', component: OwnerView, children: [
+        { path: '/creators', component: CreatorsIndexView },
+        { path: '/albums', component: AlbumIndexView },
+        { path: '/flags', component: FlagsIndexView },
+        { path: '/reports', component: ReportContentView },
+        { path: '/songs', component: SongIndexView },
+        { path: '/users', component: UserIndexView },
+        { path: '/admin/dashboard/playing/song/:id', component: SongDetail }
+      ] }
+    ];
+
+    const router = new VueRouter({
+      routes // short for `routes: routes`
+    })
+
+    var app = new Vue({
+      el: "#app",
+      router: router,
+    })
+  </script>
+</body>
+
+</html>
